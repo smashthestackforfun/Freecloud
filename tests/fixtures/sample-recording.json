@@ -1,0 +1,80 @@
+{
+  "id": "sample-1",
+  "name": "Search Example",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "recorderVersion": "0.1.0",
+  "startUrl": "https://example.com",
+  "timeline": [
+    {
+      "id": "evt-1",
+      "timestamp": 1000,
+      "type": "USER_ACTION",
+      "action": "click",
+      "selectorChain": [
+        { "type": "form-attr", "value": "input[name=\"q\"]", "confidence": 0.7 }
+      ],
+      "preConditions": { "visible": true, "enabled": true }
+    },
+    {
+      "id": "evt-2",
+      "timestamp": 1500,
+      "type": "USER_ACTION",
+      "action": "type",
+      "selectorChain": [
+        { "type": "form-attr", "value": "input[name=\"q\"]", "confidence": 0.7 }
+      ],
+      "textValue": "test search query",
+      "preConditions": { "visible": true, "enabled": true }
+    },
+    {
+      "id": "evt-3",
+      "timestamp": 2000,
+      "type": "USER_ACTION",
+      "action": "keypress",
+      "selectorChain": [
+        { "type": "form-attr", "value": "input[name=\"q\"]", "confidence": 0.7 }
+      ],
+      "keyCode": "Enter",
+      "preConditions": { "visible": true, "enabled": true }
+    },
+    {
+      "id": "evt-4",
+      "timestamp": 2100,
+      "type": "NAVIGATION",
+      "url": "https://example.com/search?q=test+search+query",
+      "transitionType": "form_submit"
+    },
+    {
+      "id": "evt-5",
+      "timestamp": 2200,
+      "type": "NETWORK_REQUEST",
+      "requestId": "req-1",
+      "url": "https://example.com/api/search?q=test+search+query",
+      "method": "GET",
+      "requestHeaders": { "Accept": "application/json" },
+      "relatedActionId": "evt-3"
+    },
+    {
+      "id": "evt-6",
+      "timestamp": 2500,
+      "type": "NETWORK_RESPONSE",
+      "requestId": "req-1",
+      "url": "https://example.com/api/search?q=test+search+query",
+      "status": 200,
+      "responseHeaders": { "Content-Type": "application/json" },
+      "responseBody": "{\"results\":[{\"title\":\"Result 1\"},{\"title\":\"Result 2\"}]}",
+      "mimeType": "application/json",
+      "relatedActionId": "evt-3"
+    },
+    {
+      "id": "evt-7",
+      "timestamp": 2600,
+      "type": "DOM_MUTATION",
+      "targetSelector": "[data-testid=\"results\"]",
+      "mutationType": "childList",
+      "addedText": "Result 1 | Result 2",
+      "relatedActionId": "evt-3"
+    }
+  ],
+  "parameters": []
+}

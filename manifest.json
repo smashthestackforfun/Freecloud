@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Freecloud Macro Recorder",
+  "version": "0.1.0",
+  "description": "Record and replay web tasks without APIs or external tools",
+  "permissions": [
+    "debugger",
+    "downloads",
+    "webNavigation",
+    "activeTab",
+    "storage",
+    "scripting",
+    "alarms"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content/index.ts"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_title": "Freecloud Macro Recorder"
+  },
+  "icons": {
+    "16": "src/assets/icons/icon16.png",
+    "48": "src/assets/icons/icon48.png",
+    "128": "src/assets/icons/icon128.png"
+  }
+}
