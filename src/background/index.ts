@@ -49,8 +49,8 @@ async function startRecording(tabId: number): Promise<void> {
 
   chrome.alarms.create(KEEPALIVE_ALARM_NAME, { periodInMinutes: 0.4 });
 
-  await sendTabMessage(tabId, { type: 'START_RECORDING' });
   state = 'recording';
+  sendTabMessage(tabId, { type: 'START_RECORDING' }).catch(() => {});
 }
 
 async function stopRecording(): Promise<void> {
@@ -62,6 +62,11 @@ async function stopRecording(): Promise<void> {
   }
 
   chrome.alarms.clear(KEEPALIVE_ALARM_NAME);
+
+  if (recordingTabId !== null) {
+    sendTabMessage(recordingTabId, { type: 'STOP_RECORDING' }).catch(() => {});
+  }
+
   state = 'idle';
   recordingTabId = null;
 }

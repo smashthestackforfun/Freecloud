@@ -25,9 +25,13 @@ export function onMessage(handler: MessageHandler): void {
     ) => {
       const result = handler(message, sender);
       if (result instanceof Promise) {
-        result.then((response) => {
-          if (response) sendResponse(response);
-        });
+        result
+          .then((response) => {
+            sendResponse(response ?? undefined);
+          })
+          .catch(() => {
+            sendResponse(undefined);
+          });
         return true;
       }
     },

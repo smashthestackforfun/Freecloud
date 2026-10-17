@@ -38,10 +38,14 @@ export function App() {
     const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!activeTab?.id) return;
 
-    await chrome.runtime.sendMessage({
-      type: 'START_RECORDING',
-      payload: { tabId: activeTab.id },
-    });
+    try {
+      await chrome.runtime.sendMessage({
+        type: 'START_RECORDING',
+        payload: { tabId: activeTab.id },
+      });
+    } catch {
+      // Background may have started recording even if response failed
+    }
     setState('recording');
     window.close();
   };
